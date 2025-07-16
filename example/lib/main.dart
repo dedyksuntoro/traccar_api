@@ -26,7 +26,9 @@ class TraccarExample extends StatefulWidget {
 }
 
 class _TraccarExampleState extends State<TraccarExample> {
-  final traccar = TraccarApi(baseUrl: 'https://admin.lacakaja.com');
+  final traccar = TraccarApi(
+    baseUrl: 'http://demo.traccar.org:5055',
+  ); // Replace with valid url
   String status = 'Initializing...';
   List<TraccarDevice> devices = [];
 
@@ -40,8 +42,8 @@ class _TraccarExampleState extends State<TraccarExample> {
     try {
       // Authenticate
       bool success = await traccar.authenticate(
-        email: 'su@sudo.com', // Ganti dengan kredensial valid
-        password: 'IT@mandalaputra78', // Ganti dengan kredensial valid
+        email: '[EMAIL]', // Replace with valid credentials
+        password: '[PASSWORD]', // Replace with valid credentials
       );
       setState(() {
         status = success

@@ -1,83 +1,92 @@
-Traccar API
-A Flutter plugin for integrating with the Traccar API, providing access to device and position data from a Traccar server.
+traccar_api
+A Flutter plugin for interacting with the Traccar API. This plugin allows you to authenticate with a Traccar server, fetch device information, and retrieve current and historical position data. It supports visualizing device locations and travel paths on a map using flutter_map.
 Features
 
-Authenticate with Traccar server using email/password or token.
-Fetch list of devices.
-Retrieve position data for specific devices with optional time filters.
-Cross-platform support for Android and iOS.
+Authenticate with a Traccar server using email and password.
+Retrieve a list of registered devices.
+Fetch current positions for a specific device.
+Fetch historical positions within a specified date range.
+Display current positions on a map with markers.
+Visualize historical travel paths as polylines.
 
 Installation
-Add the following to your pubspec.yaml:
+Add the following to your pubspec.yaml file:
 dependencies:
   traccar_api: ^1.0.0
+  flutter_map: ^6.0.0
+  latlong2: ^0.9.0
+  syncfusion_flutter_datepicker: ^20.0.0
 
-Run flutter pub get to install the package.
+Then, run:
+flutter pub get
+
 Usage
-Initialize the plugin
+1. Initialize the Traccar API Client
+Create an instance of TraccarApi with your Traccar server URL:
 import 'package:traccar_api/traccar_api.dart';
 
-void main() async {
-  final traccar = TraccarApi(baseUrl: 'http://demo.traccar.org:5055');
+final traccar = TraccarApi(baseUrl: 'http://demo.traccar.org:5055');
 
-  // Authenticate with email and password
-  bool success = await traccar.authenticate(
-    email: 'your-email@example.com',
-    password: 'your-password',
-  );
-
-  if (success) {
-    print('Authentication successful');
-  } else {
-    print('Authentication failed');
-  }
-
-  // Alternatively, authenticate with a token
-  traccar.authenticateWithToken('your-token');
-
-  // Fetch devices
-  try {
-    final devices = await traccar.getDevices();
-    for (var device in devices) {
-      print(device);
-    }
-  } catch (e) {
-    print('Error: $e');
-  }
-
-  // Fetch positions for a device
-  try {
-    final positions = await traccar.getPositions(deviceId: 1);
-    for (var position in positions) {
-      print(position);
-    }
-  } catch (e) {
-    print('Error: $e');
-  }
-
-  // Dispose when done
-  traccar.dispose();
+2. Authenticate with the Server
+Use your Traccar credentials to authenticate:
+bool success = await traccar.authenticate(
+  email: 'admin@traccar.org',
+  password: 'admin',
+);
+if (success) {
+  print('Authentication successful');
+} else {
+  print('Authentication failed');
 }
 
-Configuration
-Android
-Add the following permissions to android/app/src/main/AndroidManifest.xml:
-<uses-permission android:name="android.permission.INTERNET" />
+3. Fetch Devices
+Retrieve a list of devices registered on the server:
+List<TraccarDevice> devices = await traccar.getDevices();
+print('Found ${devices.length} devices');
 
-iOS
-Add the following to ios/Runner/Info.plist to allow HTTP connections (if your server uses HTTP):
-<key>NSAppTransportSecurity</key>
-<dict>
-  <key>NSAllowsArbitraryLoads</key>
-  <true/>
-</dict>
+4. Fetch Current Positions
+Get the latest positions for a specific device:
+final positions = await traccar.getPositions(deviceId: devices[0].id);
+if (positions.isNotEmpty) {
+  print('Latest position: ${positions[0].latitude}, ${positions[0].longitude}');
+}
 
-Publishing to pub.dev
+5. Fetch Historical Positions
+Retrieve positions for a device within a date range:
+final positions = await traccar.getPositions(
+  deviceId: devices[0].id,
+  from: DateTime(2025, 7, 1),
+  to: DateTime(2025, 7, 16),
+);
+print('Found ${positions.length} historical positions');
 
-Ensure you have a CHANGELOG.md file documenting changes.
-Update the version in pubspec.yaml for each release.
-Run flutter pub publish --dry-run to verify the package.
-Run flutter pub publish to upload to pub.dev.
+Example
+The example/ directory contains a complete Flutter app demonstrating how to:
+
+Authenticate with a Traccar server.
+Display a list of devices.
+Show current device positions on a map with markers.
+Visualize historical travel paths as polylines using a date range picker.
+
+To run the example:
+cd example
+flutter run
+
+Dependencies
+This plugin requires the following dependencies:
+
+flutter_map: For rendering maps.
+latlong2: For handling latitude and longitude coordinates.
+syncfusion_flutter_datepicker: For selecting date ranges in the example app.
+
+Ensure these are included in your pubspec.yaml if you use the example or similar functionality.
+Notes
+
+Replace http://demo.traccar.org:5055 with your Traccar server URL if you are using a private instance.
+Ensure a stable internet connection to fetch data from the Traccar server and load OpenStreetMap tiles.
+For private servers, verify that your server supports the Traccar API and that your credentials are valid.
 
 Contributing
-Contributions are welcome! Please open an issue or submit a pull request on GitHub.
+Contributions are welcome! Please submit issues or pull requests to the GitHub repository.
+License
+This project is licensed under the BSD 3-Clause License. See the LICENSE file for details.

@@ -1,0 +1,28 @@
+name: traccar_api
+description: A Flutter plugin for integrating with the Traccar API, enabling access to device and position data.
+version: 1.0.0
+homepage: https://github.com/yourusername/traccar_api
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.19.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  mockito: ^5.4.4
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.example.traccar_api
+        pluginClass: TraccarApiPlugin
+      ios:
+        pluginClass: TraccarApiPlugin

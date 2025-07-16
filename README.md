@@ -113,7 +113,7 @@ Ensure these are included in your `pubspec.yaml` if you use the example or simil
 - For private servers, verify that your server supports the Traccar API and that your credentials are valid.
 
 ## Contributing
-Contributions are welcome! Please submit issues or pull requests to the [GitHub repository](https://github.com/your_username/traccar_api).
+Contributions are welcome! Please submit issues or pull requests to the [GitHub repository](https://github.com/dedyksuntoro/traccar_api).
 
 ## License
 This project is licensed under the BSD 3-Clause License. See the [LICENSE](LICENSE) file for details.
